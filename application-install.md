@@ -14,5 +14,12 @@ kubectl config current-context
 
 argocd cluster add arn:aws:eks:us-east-1:020930354342:cluster/argocd-cluster
 
+
+argocd app create guestbook \                                        
+  --repo https://github.com/argoproj/argocd-example-apps.git \
+  --path guestbook \
+  --dest-server ************************************************** \
+  --dest-namespace default
+
 ```
 
