@@ -46,7 +46,7 @@ spec:
   strategy:
     blueGreen:
       activeService: guestbook-ui
-      previewService: guestbook-ui-canary
+      previewService: guestbook-ui-blue-green
       autoPromotionEnabled: false
       scaleDownDelaySeconds: 300
 ---
@@ -108,7 +108,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/udemykcloud/argo-rollout-guestbook-blue-green.git
+    repoURL: https://github.com/crazylearning-cr/argo-rollout-guestbook-blue-green.git
     path: guestbook-rollout
     targetRevision: HEAD
   destination:
