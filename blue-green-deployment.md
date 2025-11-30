@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
         - name: guestbook-ui
-          image: udemykcloud534/guestbook:green
+          image: udemykcloud534/guestbook:blue
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
