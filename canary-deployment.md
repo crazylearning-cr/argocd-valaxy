@@ -149,7 +149,16 @@ kubectl apply -f application.yaml
 kubectl get ingress -A
 ```
 
+4. Promote to next level
+```
+kubectl argo rollouts promote guestbook-ui
+```
+It can be done via rollouts UI
 
+How to access UI
+```
+kubectl argo rollouts dashboard
+```
 
 
 
