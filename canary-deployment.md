@@ -24,6 +24,7 @@ metadata:
 spec:
   replicas: 3
   revisionHistoryLimit: 2
+  progressDeadlineSeconds: 600
   selector:
     matchLabels:
       app: guestbook-ui
@@ -34,7 +35,7 @@ spec:
     spec:
       containers:
         - name: guestbook-ui
-          image: udemykcloud534/guestbook:blue
+          image: udemykcloud534/guestbook:yellow
           ports:
             - containerPort: 8080
           readinessProbe:
@@ -43,6 +44,19 @@ spec:
               port: 8080
             initialDelaySeconds: 5
             periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
   strategy:
     canary:
       steps:
@@ -101,7 +115,6 @@ spec:
                 name: guestbook-ui
                 port:
                   number: 80
-
 ```
 
 ## create application
@@ -117,14 +130,18 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/udemykcloud/argo-rollout-canary.git
+    repoURL: https://github.com/crazylearning-cr/argo-rollout-guestbook-canary.git
     path: guestbook-rollout
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
     namespace: default
   syncPolicy:
-    automated: {}
+    automated:
+      prune: true          # delete resources removed from Git
+      selfHeal: true       # revert out-of-band changes
+    syncOptions:
+      - CreateNamespace=true   # if you deploy to non-existing ns in future
 
 ```
 ## Modify the guestbook-rollout.yaml for deploying the version for the docker image.
